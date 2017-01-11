@@ -12,6 +12,10 @@ TETRIS.Model.Grid = {
   columns: 10
 };
 
+TETRIS.Model.offset = function offset(shapeSize) {
+  // TODO
+};
+
 // shapes: square, bar, T, L/<-L, Z/S
 TETRIS.Model.Square = function Square(options) {
   this.diameter = TETRIS.Model.Grid.height / TETRIS.Model.Grid.rows;
@@ -25,7 +29,7 @@ TETRIS.Model.Shape = function Shape(options) {
   this.diameter = options.diameter;
   this.matrix = new Array(Math.pow(this.diameter, 2));
   this.initializeMatrix(options);
- }
+}
 
 TETRIS.Model.Shape.prototype.initializeMatrix = function initializeMatrix(options) {
   for(var r = 0; r < this.diameter; r++){
@@ -36,8 +40,8 @@ TETRIS.Model.Shape.prototype.initializeMatrix = function initializeMatrix(option
 TETRIS.Model.Shape.prototype.setRow = function setRow(r, options) {
   var squareOptions = {};
   for(var c = 0; c < this.diameter; c++){
-    squareOptions = { x: c, y: r };
-    if(options.filled[r + "_" + c]){
+    squareOptions = { x: c + TETRIS.Model.offset(this.diameter), y: r };
+    if(options.filled[r + "_" + c]) {
       squareOptions.filled = true;
     }
     this.matrix[r + c + (r*(this.diameter-1))] = new Square(squareOptions);
