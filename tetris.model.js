@@ -42,7 +42,7 @@ TETRIS.Model.keyDown = function keyDown(keyCode) {
     TETRIS.Model.rotate(+keyCode);
   }
   if(TETRIS.Model.keys.strafe[+keyCode]){
-    TETRIS.Model.move(+keyCode);
+    TETRIS.Model.strafe(+keyCode);
   }
 };
 
@@ -50,6 +50,6 @@ TETRIS.Model.rotate = function rotate(keyCode) {
   this.activeShape.rotate(this.keys.rotation[+keyCode]);
 };
 
-TETRIS.Model.move = function move(keyCode) {
-  //TODO
+TETRIS.Model.strafe = function strafe(keyCode) {
+  this.activeShape.strafe(this.keys.strafe[+keyCode]);
 };

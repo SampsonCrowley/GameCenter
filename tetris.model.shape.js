@@ -76,3 +76,14 @@ TETRIS.Model.Shape.prototype.rotate = function rotate(degrees) {
   }
   this.updateMatrix();
 };
+
+TETRIS.Model.Shape.prototype.strafe = function strafe(columns) {
+  // TODO
+  this.x += columns
+  if(this.x < 0) {
+    this.x = 0;
+  } else if(this.x + this.diameter > TETRIS.Model.Grid.columns) {
+    this.x = TETRIS.Model.Grid.columns - this.diameter;
+  }
+  this.updateMatrix();
+};
