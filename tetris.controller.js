@@ -5,7 +5,9 @@ TETRIS.Controller.init = function init(){
   this.view = TETRIS.View;
   this.model = TETRIS.Model;
   this.model.init();
-  this.view.init();
+  this.view.init({
+    keyDown: TETRIS.Model.keyDown
+  });
   this.animationSpeed();
   this.then = Date.now();
   this.animate();

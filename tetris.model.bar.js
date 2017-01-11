@@ -27,15 +27,15 @@ TETRIS.Model.Bar.rotations = {
       "2_3": true
     },
     180: {
-      "1_0": true,
-      "1_1": true,
-      "1_2": true,
-      "1_3": true
-    },
-    270: {
       "0_2": true,
       "1_2": true,
       "2_2": true,
       "3_2": true
+    },
+    270: {
+      "1_0": true,
+      "1_1": true,
+      "1_2": true,
+      "1_3": true
     }
 }

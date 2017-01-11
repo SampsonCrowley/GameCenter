@@ -48,18 +48,6 @@ TETRIS.View = {
       document.body.addEventListener("keydown", function(e) {
         cb.keyDown(e.which || e.keyCode || 0)
       });
-      document.body.addEventListener("mousedown", function(e) {
-        cb.keyDown("click")
-      });
-    }
-
-    if(cb.keyUp){
-      document.body.addEventListener("keyup", function(e) {
-        cb.keyUp(e.which || e.keyCode || 0)
-      });
-      document.body.addEventListener("mouseup", function(e) {
-        cb.keyUp("click")
-      });
     }
 
     window.addEventListener('resize', function() {
@@ -96,17 +84,12 @@ TETRIS.View = {
   renderShapes: function renderPixel(shapes){
     for(var i = 0; i < shapes.length; i++){
       shapes[i].updateMatrix();
-      this.renderMatrix(shapes[i]);
+      this.renderMatrix(shapes[i].pixels());
     }
   },
-  renderMatrix: function renderMatrix(shape){
-    for(var i = 0; i < shape.matrix.length; i++){
-      if(shape.matrix[i].filled){
-        var pixel = shape.matrix[i];
-        var x = pixel.x + pixel.diameter * shape.x;
-        var y = pixel.y + pixel.diameter * shape.y;
-        this.drawPixel(x, y, pixel.diameter)
-      }
+  renderMatrix: function renderMatrix(pixels){
+    for(var i = 0; i < pixels.length; i++){
+      this.drawPixel(pixels[i].x, pixels[i].y, pixels[i].diameter);
     }
   },
   drawPixel: function drawPixel(x, y, diameter) {
@@ -116,6 +99,6 @@ TETRIS.View = {
   gameOver: function gameOver(){
     this.tetrisContext.font="50vh Verdana";
     this.tetrisContext.fillStyle="white";
-    this.tetrisContext.fillText("Game Over", this.width/4, this.height*.75, this.width/2)
+    this.tetrisContext.fillText("Game Over", this.width/4, this.height*.75, this.width/2);
   }
 }

@@ -40,8 +40,22 @@ TETRIS.Model.Shape.prototype.fillMatrix = function fillMatrix(filled) {
   }
 };
 
-TETRIS.Model.Shape.prototype.pixelPosition = function fillPixel() {
-  // TODO
+TETRIS.Model.Shape.prototype.pixels = function pixels() {
+  var pixels = new Array(4);
+  var n = 0;
+  for(var i = 0; i < this.matrix.length; i++){
+    if(this.matrix[i].filled){
+      pixels[n] = {
+        x: this.matrix[i].x + (this.matrix[i].diameter * this.x),
+        y: this.matrix[i].y + (this.matrix[i].diameter * this.y),
+        diameter: this.matrix[i].diameter
+      }
+      n++;
+      if(n === 4) break;
+    }
+  }
+  return pixels
+
 };
 
 TETRIS.Model.Shape.prototype.fillPixel = function fillPixel(c, r, filled) {
@@ -52,6 +66,13 @@ TETRIS.Model.Shape.prototype.fillPixel = function fillPixel(c, r, filled) {
   }
 };
 
-TETRIS.Model.Shape.prototype.rotate = function rotate() {
+TETRIS.Model.Shape.prototype.rotate = function rotate(degrees) {
   // TODO
+  this.orientation += degrees
+  if(this.orientation < 0) {
+    this.orientation += 360;
+  } else if(this.orientation >= 360) {
+    this.orientation -= 360;
+  }
+  this.updateMatrix();
 };

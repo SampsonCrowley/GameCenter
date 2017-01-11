@@ -26,3 +26,30 @@ TETRIS.Model.offset = function offset(shapeDiameter) {
 TETRIS.Model.drop = function drop() {
   this.activeShape.y += 1;
 };
+TETRIS.Model.keys = {
+  rotation: {
+    81: -90, // Q
+    87: 90 //W
+  },
+  strafe: {
+    65: -1, //A
+    68: 1 //D
+  }
+};
+
+TETRIS.Model.keyDown = function keyDown(keyCode) {
+  if(TETRIS.Model.keys.rotation[+keyCode]){
+    TETRIS.Model.rotate(+keyCode);
+  }
+  if(TETRIS.Model.keys.strafe[+keyCode]){
+    TETRIS.Model.move(+keyCode);
+  }
+};
+
+TETRIS.Model.rotate = function rotate(keyCode) {
+  this.activeShape.rotate(this.keys.rotation[+keyCode]);
+};
+
+TETRIS.Model.move = function move(keyCode) {
+  //TODO
+};
