@@ -39,75 +39,80 @@ TETRIS.Model.Shape = function Shape(options) {
   this.diameter = options.diameter;
   this.x = TETRIS.Model.offset(this.diameter);
   this.y = -1;
-  this.matrix = new Array(Math.pow(this.diameter, 2));
-  this.initializeMatrix = function initializeMatrix(options) {
-    for(var r = 0; r < this.diameter; r++){
-      this.setRow(r, options);
+  var initializeMatrix = function initializeMatrix(options) {
+    var matrix = new Array(Math.pow(options.diameter, 2));
+    for(var r = 0; r < options.diameter; r++){
+      setRow(r, options, matrix);
     }
+    return matrix;
   };
-  this.setRow = function setRow(r, options) {
+  var setRow = function setRow(r, options, matrix) {
     var squareOptions = {};
-    for(var c = 0; c < this.diameter; c++){
-      squareOptions = { x: c + TETRIS.Model.offset(this.diameter), y: r };
-      if(options.filled[0][c + "_" + r]) {
-        squareOptions.filled = true;
-      }
-      this.matrix[r + c + (r*(this.diameter-1))] = new TETRIS.Model.Pixel(squareOptions);
+    for(var c = 0; c < options.diameter; c++){
+      squareOptions = { x: c + TETRIS.Model.offset(options.diameter), y: r };
+      // if(options.filled[0][c + "_" + r]) {
+      //   squareOptions.filled = true;
+      // }
+      matrix[r + c + (r*(options.diameter-1))] = new TETRIS.Model.Pixel(squareOptions);
     }
   };
-  this.initializeMatrix(options);
+  this.matrix = initializeMatrix(options);
 };
 
+TETRIS.Model.Shape.prototype.fillMatrix = function fillMatrix(filled) {
+  for(var r = 0; r < this.diameter; r++){
+    for(var c = 0; c < this.diameter; c++){
+      this.fillPixel(r, c, filled);
+    }
+  }
+}
+TETRIS.Model.Shape.prototype.fillPixel = function fillPixel(c, r, filled) {
+  if(filled[c + "_" + r]) {
+    this.matrix[r + c + (r*(this.diameter-1))].filled = true;
+  } else {
+    this.matrix[r + c + (r*(this.diameter-1))].filled = false;
+  }
+}
 
 TETRIS.Model.Shape.prototype.rotate = function rotate() {
-  //TODO
-  /*
-  0  | 1  | 2  | 3
-  4  | 5  | 6  | 7
-  8  | 9  | 10 | 11
-  12 | 13 | 14 | 15
-
-  3  | 7  | 11 | 15
-  2  | 6  | 10 | 14
-  1  | 5  | 9  | 13
-  0  | 4  | 8  | 12
-  for n = SIZE - 1 to 0
-    for i = 0 to SIZE**2-1
-      this.matrix.["r270"][i] = this.matrix[i + n]
-  */
 };
 
 TETRIS.Model.Bar = function Bar() {
   TETRIS.Model.Shape.call(this, {
-    diameter: 4,
-    filled: {
-      0: {
-        "0_1": true,
-        "1_1": true,
-        "2_1": true,
-        "3_1": true
-      },
-      1: {
-        "2_0": true,
-        "2_1": true,
-        "2_2": true,
-        "2_3": true
-      },
-      2: {
-        "1_0": true,
-        "1_1": true,
-        "1_2": true,
-        "1_3": true
-      },
-      3: {
-        "0_2": true,
-        "1_2": true,
-        "2_2": true,
-        "3_2": true
-      }
-    }
+    diameter: 4
   });
-};
 
+};
 TETRIS.Model.Bar.prototype = Object.create(TETRIS.Model.Shape.prototype);
 TETRIS.Model.Bar.prototype.constructor = TETRIS.Model.Bar;
+
+TETRIS.Model.Bar.prototype.updateMatrix = function updateMatrix(){
+  this.fillMatrix(TETRIS.Model.Bar.rotations[this.orientation])
+}
+
+TETRIS.Model.Bar.rotations = {
+    0: {
+      "0_1": true,
+      "1_1": true,
+      "2_1": true,
+      "3_1": true
+    },
+    90: {
+      "2_0": true,
+      "2_1": true,
+      "2_2": true,
+      "2_3": true
+    },
+    180: {
+      "1_0": true,
+      "1_1": true,
+      "1_2": true,
+      "1_3": true
+    },
+    270: {
+      "0_2": true,
+      "1_2": true,
+      "2_2": true,
+      "3_2": true
+    }
+}

@@ -35,7 +35,7 @@ TETRIS.View = {
 
   initCanvas: function initCanvas() {
     this.bgContext = this.backgroundCanvas.getContext('2d');
-    this.bgContext.fillStyle = "blue";
+    this.bgContext.fillStyle = "#9fc5f8";
     this.tetrisContext = this.tetrisCanvas.getContext('2d');
     this.resize();
   },
@@ -82,7 +82,7 @@ TETRIS.View = {
   },
 
   renderBackground: function renderBackground() {
-    this.bgContext.fillStyle = "#0000FF";
+    this.bgContext.fillStyle = "#9fc5f8";
     this.bgContext.clearRect(0,0, this.width, this.height);
     this.bgContext.fillRect(0,0, this.backgroundCanvas.width, this.backgroundCanvas.height);
   },
@@ -95,6 +95,7 @@ TETRIS.View = {
   },
   renderShapes: function renderPixel(shapes){
     for(var i = 0; i < shapes.length; i++){
+      shapes[i].updateMatrix()
       this.renderMatrix(shapes[i])
     }
   },
