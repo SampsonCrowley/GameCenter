@@ -6,40 +6,39 @@ TETRIS.Model = TETRIS.Model || {}
 
 TETRIS.Model.init = function init(){
   this.shapes = [new this.Bar()]
-}
+};
 
 TETRIS.Model.descentRate = 1;
 
 TETRIS.Model.Grid = {
-  height: window.innerHeight, // TODO
+  height: window.innerHeight, // TODO extract to view
+  width: (this.height / 2),
   rows: 20,
   columns: 10
 };
 
-TETRIS.Model.offset = function offset(shapeSize) {
-  // TODO
-  return (this.Grid.columns/2) - Math.floor(shapeSize/2);
+TETRIS.Model.offset = function offset(shapeDiameter) {
+  return (this.Grid.columns / 2) - Math.floor(shapeDiameter / 2);
 };
 
 // shapes: square, bar, T, L/<-L, Z/S
-TETRIS.Model.Square = function Square(options) {
+TETRIS.Model.Pixel = function Pixel(options) {
   this.diameter = TETRIS.Model.Grid.height / TETRIS.Model.Grid.rows;
-  this.rx = options.x;
-  this.ry = options.y;
-  this.x = this.rx * this.diameter;
-  this.y = this.ry * this.diameter;
+  this.x = options.x * this.diameter;
+  this.y = options.y * this.diameter;
   this.filled = options.filled
-}
-TETRIS.Model.prototype.updateCoords = function updateCoords(x, y){
-  this.rx = x;
-  this.ry = y;
-  this.x = this.rx * this.diameter;
-  this.y = this.ry * this.diameter;
+};
+
+TETRIS.Model.Pixel.prototype.updateCoords = function updateCoords(x, y){
+  this.x = x * this.diameter;
+  this.y = y * this.diameter;
 };
 
 TETRIS.Model.Shape = function Shape(options) {
   this.orientation = 0;
   this.diameter = options.diameter;
+  this.x = TETRIS.Model.offset(this.diameter);
+  this.y = -1;
   this.matrix = new Array(Math.pow(this.diameter, 2));
   this.initializeMatrix = function initializeMatrix(options) {
     for(var r = 0; r < this.diameter; r++){
@@ -53,11 +52,11 @@ TETRIS.Model.Shape = function Shape(options) {
       if(options.filled[0][c + "_" + r]) {
         squareOptions.filled = true;
       }
-      this.matrix[r + c + (r*(this.diameter-1))] = new TETRIS.Model.Square(squareOptions);
+      this.matrix[r + c + (r*(this.diameter-1))] = new TETRIS.Model.Pixel(squareOptions);
     }
   };
   this.initializeMatrix(options);
-}
+};
 
 
 TETRIS.Model.Shape.prototype.rotate = function rotate() {
