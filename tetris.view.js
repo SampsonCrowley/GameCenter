@@ -95,20 +95,23 @@ TETRIS.View = {
   },
   renderShapes: function renderPixel(shapes){
     for(var i = 0; i < shapes.length; i++){
-      shapes[i].updateMatrix()
-      this.renderMatrix(shapes[i])
+      shapes[i].updateMatrix();
+      this.renderMatrix(shapes[i]);
     }
   },
   renderMatrix: function renderMatrix(shape){
     for(var i = 0; i < shape.matrix.length; i++){
       if(shape.matrix[i].filled){
-        this.drawPixel(shape.matrix[i])
+        var pixel = shape.matrix[i];
+        var x = pixel.x + pixel.diameter * shape.x;
+        var y = pixel.y + pixel.diameter * shape.y;
+        this.drawPixel(x, y, pixel.diameter)
       }
     }
   },
-  drawPixel: function drawPixel(square) {
+  drawPixel: function drawPixel(x, y, diameter) {
     this.tetrisContext.fillStyle = "#FFFFFF";
-    this.tetrisContext.fillRect(square.x, square.y, square.diameter, square.diameter)
+    this.tetrisContext.fillRect(x, y, diameter, diameter);
   },
   gameOver: function gameOver(){
     this.tetrisContext.font="50vh Verdana";

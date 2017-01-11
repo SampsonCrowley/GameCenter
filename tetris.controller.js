@@ -19,7 +19,7 @@ TETRIS.Controller.animationSpeed = function animationSpeed(){
 TETRIS.Controller.drop = function drop(){
   this.now = Date.now() - this.then
   if(this.now > 1000){
-    // this.model.drop();
+     this.model.drop();
     this.then = Date.now()
   }
 };

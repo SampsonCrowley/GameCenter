@@ -24,5 +24,5 @@ TETRIS.Model.offset = function offset(shapeDiameter) {
 };
 
 TETRIS.Model.drop = function drop() {
-  this.activeShape.y += this.Grid.rowHeight;
+  this.activeShape.y += 1;
 };
