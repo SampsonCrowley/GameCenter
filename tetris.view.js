@@ -61,6 +61,7 @@ TETRIS.View = {
   resize: function resize() {
     this.height = window.innerHeight;
     this.width = this.height / 2;
+    this.diameter = this.width / 10;
     this.backgroundCanvas.height = this.height;
     this.backgroundCanvas.width = this.width;
     this.tetrisCanvas.height = this.height;
@@ -89,12 +90,13 @@ TETRIS.View = {
   },
   renderMatrix: function renderMatrix(pixels){
     for(var i = 0; i < pixels.length; i++){
-      this.drawPixel(pixels[i].x, pixels[i].y, pixels[i].diameter);
+      this.drawPixel(pixels[i].x, pixels[i].y);
     }
   },
-  drawPixel: function drawPixel(x, y, diameter) {
+  drawPixel: function drawPixel(x, y) {
+    console.log(x + ", " + y)
     this.tetrisContext.fillStyle = "#FFFFFF";
-    this.tetrisContext.fillRect(x, y, diameter, diameter);
+    this.tetrisContext.fillRect((x * this.diameter), (y * this.diameter), this.diameter, this.diameter);
   },
   gameOver: function gameOver(){
     this.tetrisContext.font="50vh Verdana";
