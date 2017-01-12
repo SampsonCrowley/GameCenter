@@ -36,7 +36,18 @@ TETRIS.Model.Shape = function Shape(options) {
 TETRIS.Model.Shape.prototype.fillMatrix = function fillMatrix(filled, clear) {
   for(var point in filled){
     this.matrix[point].filled = (clear ? false : true);
-    console.log(this.matrix[point])
+  }
+};
+
+TETRIS.Model.Shape.prototype.each = function each(cb) {
+  var i = 0;
+  var breakOut = false;
+  for(var c = 0; c < this.diameter; c++){
+    for(var r = 0; r < this.diameter; r++){
+      breakOut = cb(this.matrix[c + "_" + r], i)
+      if(breakOut) return;
+      i++;
+    }
   }
 };
 
@@ -44,20 +55,19 @@ TETRIS.Model.Shape.prototype.fillMatrix = function fillMatrix(filled, clear) {
 TETRIS.Model.Shape.prototype.pixels = function pixels() {
   var pixels = new Array(4);
   var n = 0;
-  for(var c = 0; c < this.diameter; c++){
-    for(var r = 0; r < this.diameter; r++){
-      if(this.matrix[c + "_" + r].filled){
-        pixels[n] = {
-          x: this.matrix[c + "_" + r].x + this.x,
-          y: this.matrix[c + "_" + r].y + this.y,
-        }
-        n++;
-        if(n === 4) break;
+  var _this = this;
+  this.each(function(pixel){
+    if(pixel.filled){
+      pixels[n] = {
+        x: pixel.x + _this.x,
+        y: pixel.y + _this.y,
       }
+      n++;
+      if(n === 4) return true;
     }
-  }
-  return pixels
+  })
 
+  return pixels
 };
 
 
