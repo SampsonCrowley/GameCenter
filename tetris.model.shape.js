@@ -15,50 +15,43 @@ TETRIS.Model.Shape = function Shape(options) {
   this.x = TETRIS.Model.offset(this.diameter);
   this.y = -1;
   var initializeMatrix = function initializeMatrix(options) {
-    var matrix = new Array(Math.pow(options.diameter, 2));
-    for(var r = 0; r < options.diameter; r++){
-      setRow(r, options, matrix);
+    var matrix = {}
+    for(var c = 0; c < options.diameter; c++){
+      setRow(c, options, matrix);
     }
     return matrix;
   };
-  var setRow = function setRow(r, options, matrix) {
+  var setRow = function setRow(c, options, matrix) {
     var squareOptions = {};
-    for(var c = 0; c < options.diameter; c++){
+    for(var r = 0; r < options.diameter; r++){
       squareOptions = { x: c, y: r };
-      matrix[r + c + (r*(options.diameter-1))] = new TETRIS.Model.Pixel(squareOptions);
+      matrix[c + "_" + r] = new TETRIS.Model.Pixel(squareOptions);
     }
   };
   this.matrix = initializeMatrix(options);
 };
 
-TETRIS.Model.Shape.prototype.fillMatrix = function fillMatrix(filled) {
-  for(var r = 0; r < this.diameter; r++){
-    for(var c = 0; c < this.diameter; c++){
-      this.fillPixel(r, c, filled);
-    }
+TETRIS.Model.Shape.prototype.fillMatrix = function fillMatrix(filled, clear) {
+  for(var point in filled){
+    this.matrix[point].filled = (clear ? false : true);
+    console.log(this.matrix[point])
   }
 };
 
-TETRIS.Model.Shape.prototype.fillPixel = function fillPixel(c, r, filled) {
-  if(filled[c + "_" + r]) {
-    this.matrix[r + c + (r*(this.diameter-1))].filled = true;
-  } else {
-    this.matrix[r + c + (r*(this.diameter-1))].filled = false;
-  }
-};
 
 TETRIS.Model.Shape.prototype.pixels = function pixels() {
   var pixels = new Array(4);
   var n = 0;
-  for(var i = 0; i < this.matrix.length; i++){
-    if(this.matrix[i].filled){
-      pixels[n] = {
-        x: this.matrix[i].x + this.x,
-        y: this.matrix[i].y + this.y,
-        diameter: this.matrix[i].diameter
+  for(var c = 0; c < this.diameter; c++){
+    for(var r = 0; r < this.diameter; r++){
+      if(this.matrix[c + "_" + r].filled){
+        pixels[n] = {
+          x: this.matrix[c + "_" + r].x + this.x,
+          y: this.matrix[c + "_" + r].y + this.y,
+        }
+        n++;
+        if(n === 4) break;
       }
-      n++;
-      if(n === 4) break;
     }
   }
   return pixels
@@ -68,6 +61,7 @@ TETRIS.Model.Shape.prototype.pixels = function pixels() {
 
 TETRIS.Model.Shape.prototype.rotate = function rotate(degrees) {
   // TODO
+  this.updateMatrix(true);
   this.orientation += degrees
   if(this.orientation < 0) {
     this.orientation += 360;

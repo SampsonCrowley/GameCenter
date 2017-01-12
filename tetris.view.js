@@ -84,7 +84,6 @@ TETRIS.View = {
   },
   renderShapes: function renderPixel(shapes){
     for(var i = 0; i < shapes.length; i++){
-      shapes[i].updateMatrix();
       this.renderMatrix(shapes[i].pixels());
     }
   },

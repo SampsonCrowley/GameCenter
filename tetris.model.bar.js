@@ -4,13 +4,13 @@ TETRIS.Model.Bar = function Bar() {
   TETRIS.Model.Shape.call(this, {
     diameter: 4
   });
-
+  this.updateMatrix()
 };
 TETRIS.Model.Bar.prototype = Object.create(TETRIS.Model.Shape.prototype);
 TETRIS.Model.Bar.prototype.constructor = TETRIS.Model.Bar;
 
-TETRIS.Model.Bar.prototype.updateMatrix = function updateMatrix(){
-  this.fillMatrix(TETRIS.Model.Bar.rotations[this.orientation])
+TETRIS.Model.Bar.prototype.updateMatrix = function updateMatrix(clear){
+  this.fillMatrix(TETRIS.Model.Bar.rotations[this.orientation], clear)
 }
 
 TETRIS.Model.Bar.rotations = {
