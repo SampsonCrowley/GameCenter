@@ -2,7 +2,8 @@
 
 TETRIS.Model.Bar = function Bar() {
   TETRIS.Model.Shape.call(this, {
-    diameter: 4
+    diameter: 4,
+    color: "#a36eaa"
   });
   this.updateMatrix()
 };

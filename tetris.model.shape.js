@@ -14,8 +14,10 @@ TETRIS.Model.Shape = function Shape(options) {
   this.diameter = options.diameter;
   this.x = TETRIS.Model.offset(this.diameter);
   this.y = -1;
+  this.color = options.color;
   var initializeMatrix = function initializeMatrix(options) {
-    var matrix = {}
+    // var matrix = {}
+    var matrix = new Array(Math.pow(options.diameter, 2));
     for(var c = 0; c < options.diameter; c++){
       setRow(c, options, matrix);
     }
@@ -60,7 +62,6 @@ TETRIS.Model.Shape.prototype.pixels = function pixels() {
 
 
 TETRIS.Model.Shape.prototype.rotate = function rotate(degrees) {
-  // TODO
   this.updateMatrix(true);
   this.orientation += degrees
   if(this.orientation < 0) {
@@ -72,12 +73,10 @@ TETRIS.Model.Shape.prototype.rotate = function rotate(degrees) {
 };
 
 TETRIS.Model.Shape.prototype.strafe = function strafe(columns) {
-  // TODO
   this.x += columns
   if(this.x < 0) {
     this.x = 0;
   } else if(this.x + this.diameter > TETRIS.Model.Grid.columns) {
     this.x = TETRIS.Model.Grid.columns - this.diameter;
   }
-  this.updateMatrix();
 };

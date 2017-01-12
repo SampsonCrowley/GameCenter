@@ -84,18 +84,19 @@ TETRIS.View = {
   },
   renderShapes: function renderPixel(shapes){
     for(var i = 0; i < shapes.length; i++){
-      this.renderMatrix(shapes[i].pixels());
+      this.renderMatrix(shapes[i].pixels(), shapes[i].color);
     }
   },
-  renderMatrix: function renderMatrix(pixels){
+  renderMatrix: function renderMatrix(pixels, color){
     for(var i = 0; i < pixels.length; i++){
-      this.drawPixel(pixels[i].x, pixels[i].y);
+      this.drawPixel(pixels[i].x, pixels[i].y, color);
     }
   },
-  drawPixel: function drawPixel(x, y) {
-    console.log(x + ", " + y)
-    this.tetrisContext.fillStyle = "#FFFFFF";
+  drawPixel: function drawPixel(x, y, color) {
+    this.tetrisContext.fillStyle = color;
+    this.tetrisContext.strokeStyle = "#333333";
     this.tetrisContext.fillRect((x * this.diameter), (y * this.diameter), this.diameter, this.diameter);
+    this.tetrisContext.strokeRect((x * this.diameter), (y * this.diameter), this.diameter, this.diameter);
   },
   gameOver: function gameOver(){
     this.tetrisContext.font="50vh Verdana";
