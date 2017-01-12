@@ -1,4 +1,8 @@
+"use strict";
 
+TETRIS = TETRIS || {}
+
+TETRIS.Model = TETRIS.Model || {}
 
 TETRIS.Model.Bar = function Bar() {
   TETRIS.Model.Shape.call(this, {

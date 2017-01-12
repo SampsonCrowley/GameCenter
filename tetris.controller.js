@@ -1,4 +1,7 @@
+"use strict";
+
 TETRIS = TETRIS || {}
+
 TETRIS.Controller = TETRIS.Controller || {}
 
 TETRIS.Controller.init = function init(){
@@ -6,7 +9,8 @@ TETRIS.Controller.init = function init(){
   this.model = TETRIS.Model;
   this.model.init();
   this.view.init({
-    keyDown: TETRIS.Model.keyDown
+    keyDown: TETRIS.Model.startKey,
+    keyUp: TETRIS.Model.stopKey
   });
   this.animationSpeed();
   this.then = Date.now();
@@ -18,7 +22,8 @@ TETRIS.Controller.animationSpeed = function animationSpeed(){
   window.requestAnimationFrame = requestAnimationFrame;
 };
 
-TETRIS.Controller.drop = function drop(){
+TETRIS.Controller.frame = function frame(){
+  this.model.movement();
   this.now = Date.now() - this.then
   if(this.now > 1000){
      this.model.drop();
@@ -28,7 +33,6 @@ TETRIS.Controller.drop = function drop(){
 
 TETRIS.Controller.animate = function animate(){
   requestAnimationFrame(function(){TETRIS.Controller.animate()})
-  // this.model.move();
-  this.drop();
-  this.view.renderEntities({shapes: this.model.shapes});
+  this.frame();
+  this.view.renderEntities(this.model.pixels());
 };

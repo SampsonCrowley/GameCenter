@@ -1,3 +1,5 @@
+"use strict";
+
 TETRIS = TETRIS || {}
 
 TETRIS.View = {
@@ -50,6 +52,12 @@ TETRIS.View = {
       });
     }
 
+    if(cb.keyUp){
+      document.body.addEventListener("keyup", function(e) {
+        cb.keyUp(e.which || e.keyCode || 0)
+      });
+    }
+
     window.addEventListener('resize', function() {
       _this.resize();
       if(cb.resize){
@@ -75,21 +83,16 @@ TETRIS.View = {
     this.bgContext.clearRect(0,0, this.width, this.height);
     this.bgContext.fillRect(0,0, this.backgroundCanvas.width, this.backgroundCanvas.height);
   },
-  clearEntities: function clearEntities(){
-    this.tetrisContext.clearRect(0,0, this.width, this.height);
+  clearEntities: function clearEntities(rows){
+    this.tetrisContext.clearRect(0,0, this.width, (rows ? (rows * this.diameter) + 1 : this.height));
   },
   renderEntities: function renderEntities(objects){
-    this.clearEntities();
-    this.renderShapes(objects.shapes);
-  },
-  renderShapes: function renderPixel(shapes){
-    for(var i = 0; i < shapes.length; i++){
-      this.renderMatrix(shapes[i].pixels(), shapes[i].color);
-    }
+    this.clearEntities(objects.rows);
+    this.renderMatrix(objects.pixels);
   },
   renderMatrix: function renderMatrix(pixels, color){
     for(var i = 0; i < pixels.length; i++){
-      this.drawPixel(pixels[i].x, pixels[i].y, color);
+      this.drawPixel(pixels[i].x, pixels[i].y, pixels[i].color);
     }
   },
   drawPixel: function drawPixel(x, y, color) {

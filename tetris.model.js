@@ -5,51 +5,47 @@ TETRIS = TETRIS || {}
 TETRIS.Model = TETRIS.Model || {}
 
 TETRIS.Model.init = function init(){
-  this.shapes = [new this.Bar()];
-  this.activeShape = this.shapes[0];
+  this.activeShape = new this.Bar();
+  console.log(this.Grid)
 };
 
 TETRIS.Model.descentRate = 1;
 
-TETRIS.Model.Grid = {
-  height: window.innerHeight, // TODO extract to view
-  width: (this.height / 2),
-  rows: 20,
-  rowHeight: (window.innerHeight / 20),
-  columns: 10
-};
-
 TETRIS.Model.offset = function offset(shapeDiameter) {
+  console.log(this.Grid);
   return (this.Grid.columns / 2) - Math.floor(shapeDiameter / 2);
 };
 
 TETRIS.Model.drop = function drop() {
   this.activeShape.y += 1;
 };
-TETRIS.Model.keys = {
-  rotation: {
-    81: -90, // Q
-    87: 90 //W
-  },
-  strafe: {
-    65: -1, //A
-    68: 1 //D
-  }
-};
+TETRIS.Model.keys = [];
 
-TETRIS.Model.keyDown = function keyDown(keyCode) {
-  if(TETRIS.Model.keys.rotation[+keyCode]){
-    TETRIS.Model.rotate(+keyCode);
-  }
-  if(TETRIS.Model.keys.strafe[+keyCode]){
-    TETRIS.Model.strafe(+keyCode);
-  }
-};
+TETRIS.Model.startKey = function startKey(key){
+  TETRIS.Model.keys[key] = true;
+}
+TETRIS.Model.stopKey = function stopKey(key){
+  TETRIS.Model.keys[key] = false;
+  TETRIS.Model.rotating = false
+}
 
-TETRIS.Model.rotate = function rotate(keyCode) {
-  this.activeShape.rotate(this.keys.rotation[+keyCode]);
-};
+TETRIS.Model.movement = function movement(keyCode) {
+  if(TETRIS.Model.keys[81]){
+    if(!this.rotating){
+      this.activeShape.rotate(-90);
+      this.rotating = true;
+    }
+  } else if(TETRIS.Model.keys[87]){
+    if(!this.rotating){
+      this.activeShape.rotate(90);
+      this.rotating = true;
+    }
+  }
 
-TETRIS.Model.strafe = function strafe(keyCode) {
-  this.activeShape.strafe(this.keys.strafe[+keyCode]);
+  if(TETRIS.Model.keys[65]){
+    this.activeShape.strafe(-1);
+  } else if(TETRIS.Model.keys[68]){
+    this.activeShape.strafe(1);
+  }
+  // this.Grid.checkCollisions(this.activeShape)
 };
