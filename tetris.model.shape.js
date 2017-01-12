@@ -13,7 +13,8 @@ TETRIS.Model.Shape = function Shape(options) {
   this.collidable = {
     xl: 50,
     xr: 0,
-    y: 0
+    y: 0,
+    pixels: new Array(4)
   };
   var initializeMatrix = function initializeMatrix(options) {
     // var matrix = {}
@@ -35,13 +36,13 @@ TETRIS.Model.Shape = function Shape(options) {
 
 TETRIS.Model.Shape.prototype.fillMatrix = function fillMatrix(filled, clear) {
   var n = 0;
-  this.collidable = {
-    xl: 50,
-    xr: 0,
-    y: 0
-  };
+  this.collidable.xl = 50;
+  this.collidable.xr = 0;
+  this.collidable.y =  0;
+
   for(var point in filled){
     this.matrix[point].filled = (clear ? false : true);
+    this.collidable.pixels[n] = this.matrix[point];
     this.collidable.xl = Math.min(this.collidable.xl, this.matrix[point].x)
     this.collidable.xr = Math.max(this.collidable.xr, this.matrix[point].x)
     this.collidable.y = Math.max(this.collidable.y, this.matrix[point].y)

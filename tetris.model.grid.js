@@ -5,9 +5,7 @@ TETRIS = TETRIS || {}
 TETRIS.Model = TETRIS.Model || {}
 
 TETRIS.Model.Grid = (function Grid() {
-  var x = 0,
-      y = -2,
-      color = "#a36eaa",
+  var color = "#a36eaa",
       rows = 20,
       columns = 10,
       set = 0,
@@ -18,6 +16,9 @@ TETRIS.Model.Grid = (function Grid() {
     for(var r = 0; r < rows; r++){
       grid[r] = setRow(r);
     }
+    // for(var c = 0; c < columns; c++){
+    //   grid[20][c].filled = true;
+    // }
     return grid;
   };
   var setRow = function setRow(r) {
@@ -30,73 +31,110 @@ TETRIS.Model.Grid = (function Grid() {
     return row;
   };
 
-  var clearFull = function clearFull(clear){
+  var clearFull = function clearFull(){
     var deletions = 0, temp;
-    for(var r = this.rows - 1; r >= deletions; r--){
+    for(var clr = rows - 1; clr >= deletions; clr--){
       // if(r - deletions === 0) break;
       var full = true;
-      for(var c = 0; c < this.width; c++){
-        if(matrix[r][c].filled === false){
+      for(var clc = 0; clc < columns; clc++){
+        if(!matrix[clr][clc].filled){
           full = false;
           break;
         }
       }
       if(full){
         deletions++;
-        for(var c = 0; c < this.width; c++){
-          matrix[r][c].filled = false;
-        }
         // matrix.push(matrix.splice(r,1))
-        var temp = matrix[r];
-        for(var nr = r; nr >= deletions; nr--){
-          matrix[nr] = matrix[nr - 1];
+        for(var nr = clr; nr >= deletions; nr--){
+          for(var clcd = 0; clcd < columns; clcd++){
+            matrix[nr][clcd].filled = matrix[nr-1][clcd].filled;
+          }
         }
-        matrix[deletions] = temp;
-        r--;
+        for(var clcd = 0; clcd < columns; clcd++){
+          matrix[deletions][clcd].filled = false;
+        }
+        clr++;
+        console.log(clr)
       }
-      cleared = deletions;
     }
+    cleared = deletions;
   };
-  var each = function each(cb, rowCount) {
-    var i = 0;
-    var breakOut = false
-    for(var r = 0; r < (rowCount || rows); r++){
-      for(var c = 0; c < columns; c++) {
-        breakOut = cb(matrix[r][c], i)
+  var each = function each(cb, rowCount, startRow) {
+    var ei = 0, breakOut = false;
+    rowCount = (isNaN(rowCount) ? rows : Math.min(rowCount, rows))
+    for(var er = (isNaN(startRow) ? 0 : Math.max(startRow,0)); er < rowCount; er++){
+      for(var ec = 0; ec < columns; ec++) {
+        breakOut = cb(matrix[er][ec], ei);
         if(breakOut) return;
-        i++;
+        ei++;
       }
     }
   };
   var pixels = function pixels(rowCount) {
-    var pixels = [];
-    var n = 0;
-    var _this = this;
-    if(cleared){
-      rowCount = undefined;
-      cleared = false
-    }
-    each(function(pixel, rowCount){
+    var pixelList = [],
+    n = 0;
+    // if(cleared){
+    //   rowCount = undefined;
+    //   cleared = false;
+    // }
+    each(function(pixel){
       if(pixel.filled){
-        pixels.push({
-          x: pixel.x + _this.x,
-          y: pixel.y + _this.y,
-          color: "#a36eaa"
+        pixelList.push({
+          x: pixel.x,
+          y: pixel.y,
+          color: pixel.color
         })
         n++;
         if(n === set) return true;
       }
     })
+    // }, rowCount)
 
-    return {pixels: pixels, rows: rowCount}
+    // return {pixels: pixelList, rows: rowCount}
+    return {pixels: pixelList, rows: undefined}
   };
+
+  var addToGrid = function addToGrid(pixels, x, y, color){
+    for(var i = 0; i < 4; i++){
+      matrix[pixels[i].y + y][pixels[i].x + x].filled = true
+      matrix[pixels[i].y + y][pixels[i].x + x].color = color
+    }
+  };
+
+  var checkCollisions = function checkCollisions(shape){
+    var n = 0,
+        collided = false;
+
+    if(shape.collidable.y + shape.y + 1 === rows) {
+      collided = true;
+    } else {
+      each(function(pixel){
+        if(pixel.filled){
+          if((pixel.x) >= (shape.collidable.xl + shape.x) &&
+          (pixel.y) >= (shape.collidable.y + shape.y)) {
+            for(var i = 0; i < 4; i++){
+              if((pixel.x) === (shape.collidable.pixels[i].x + shape.x) &&
+              (pixel.y) === (shape.collidable.pixels[i].y + shape.y + 1)){
+                return collided = true;
+              }
+            }
+          }
+        }
+      }, (shape.y + shape.collidable.y + 3), shape.y-shape.diameter)
+    }
+
+    if(collided){
+      (function(pixels, x, y, color){addToGrid(pixels, x, y, color)})(shape.collidable.pixels, shape.x, shape.y, shape.color);
+      clearFull();
+      return true
+    }
+  };
+
   var matrix = initializeMatrix();
   return {
-    x: 0,
-    y: -2,
     columns: columns,
     rows: rows,
-    clearFull: clearFull,
-    pixels: pixels
+    pixels: pixels,
+    checkCollisions: checkCollisions
   }
 })();

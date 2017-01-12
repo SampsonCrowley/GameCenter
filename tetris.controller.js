@@ -23,12 +23,12 @@ TETRIS.Controller.animationSpeed = function animationSpeed(){
 };
 
 TETRIS.Controller.frame = function frame(){
-  this.model.movement();
   this.now = Date.now() - this.then
-  if(this.now > 1000){
-     this.model.drop();
+  if(this.now > 200){
+    this.model.drop();
     this.then = Date.now()
   }
+  this.model.movement();
 };
 
 TETRIS.Controller.animate = function animate(){

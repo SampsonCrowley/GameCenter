@@ -11,7 +11,7 @@ TETRIS.Model.Pixel = function Pixel(options) {
 };
 
 TETRIS.Model.pixels = function pixels() {
-  var gridResult = this.Grid.pixels(this.activeShape.y + this.activeShape.diameter)
+  var gridResult = this.Grid.pixels(this.activeShape.y + this.activeShape.collidable.y)
   return {
     pixels: [...this.activeShape.pixels(), ...gridResult.pixels],
     rows: gridResult.rows

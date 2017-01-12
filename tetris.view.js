@@ -50,11 +50,17 @@ TETRIS.View = {
       document.body.addEventListener("keydown", function(e) {
         cb.keyDown(e.which || e.keyCode || 0)
       });
+      document.body.addEventListener("mousedown", function(e) {
+        cb.keyDown("click")
+      });
     }
 
     if(cb.keyUp){
       document.body.addEventListener("keyup", function(e) {
         cb.keyUp(e.which || e.keyCode || 0)
+      });
+      document.body.addEventListener("mouseup", function(e) {
+        cb.keyUp("click")
       });
     }
 
@@ -84,7 +90,7 @@ TETRIS.View = {
     this.bgContext.fillRect(0,0, this.backgroundCanvas.width, this.backgroundCanvas.height);
   },
   clearEntities: function clearEntities(rows){
-    this.tetrisContext.clearRect(0,0, this.width, (rows ? (rows * this.diameter) + 1 : this.height));
+    this.tetrisContext.clearRect(0,0, this.width, (rows ? ((rows+1) * this.diameter) + 1 : this.height));
   },
   renderEntities: function renderEntities(objects){
     this.clearEntities(objects.rows);
@@ -96,10 +102,14 @@ TETRIS.View = {
     }
   },
   drawPixel: function drawPixel(x, y, color) {
+    this.tetrisContext.beginPath();
+    this.tetrisContext.rect((x * this.diameter), (y * this.diameter), this.diameter, this.diameter);
     this.tetrisContext.fillStyle = color;
+    this.tetrisContext.fill();
+    this.tetrisContext.lineWidth = 1;
     this.tetrisContext.strokeStyle = "#333333";
-    this.tetrisContext.fillRect((x * this.diameter), (y * this.diameter), this.diameter, this.diameter);
-    this.tetrisContext.strokeRect((x * this.diameter), (y * this.diameter), this.diameter, this.diameter);
+    this.tetrisContext.stroke();
+    this.tetrisContext.closePath();
   },
   gameOver: function gameOver(){
     this.tetrisContext.font="50vh Verdana";
