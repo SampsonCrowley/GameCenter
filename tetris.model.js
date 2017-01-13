@@ -10,7 +10,8 @@ TETRIS.Model.init = function init(){
 };
 
 TETRIS.Model.descentRate = 1;
-TETRIS.Model.strafing = false;
+TETRIS.Model.strafing = 0;
+TETRIS.Model.rotating = 0;
 TETRIS.Model.keys = [];
 
 
@@ -53,33 +54,44 @@ TETRIS.Model.startKey = function startKey(key){
 }
 TETRIS.Model.stopKey = function stopKey(key){
   TETRIS.Model.keys[key] = false;
-  TETRIS.Model.rotating = false;
-  TETRIS.Model.strafing = false;
+  switch (key) {
+    case 32:
+    case 81:
+    case 87:
+    case "click":
+      TETRIS.Model.rotating = 0;
+      break;
+    case 65:
+    case 68:
+      TETRIS.Model.strafing = 0;
+      break;
+    default:
+  }
 }
 
 TETRIS.Model.movement = function movement(keyCode) {
   if(this.keys[81]){
-    if(!this.rotating){
+    if(this.rotating % 10 === 0){
       this.activeShape.rotate(-90);
-      this.rotating = true;
     }
+    this.rotating += 1;
   } else if(this.keys[87] || this.keys[32] || this.keys["click"]){
-    if(!this.rotating){
+    if(this.rotating % 10 === 0){
       this.activeShape.rotate(90);
-      this.rotating = true;
     }
+    this.rotating += 1;
   }
 
   if(this.keys[65]){
-    if(!this.strafing){
+    if(this.strafing % 10 === 0){
       this.activeShape.strafe(-1);
-      this.strafing = true;
     }
+    this.strafing += 1;
   } else if(this.keys[68]){
-    if(!this.strafing){
+    if(this.strafing % 10 === 0){
       this.activeShape.strafe(1);
-      this.strafing = true;
     }
+    this.strafing += 1;
   }
   var collided = this.Grid.checkCollisions(this.activeShape)
   if(collided){

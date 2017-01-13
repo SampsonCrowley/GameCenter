@@ -2,37 +2,42 @@
 
 TETRIS = TETRIS || {}
 
-TETRIS.Controller = TETRIS.Controller || {}
+TETRIS.Controller = (function(view, model){
+  var now,
+      then;
 
-TETRIS.Controller.init = function init(){
-  this.view = TETRIS.View;
-  this.model = TETRIS.Model;
-  this.model.init();
-  this.view.init({
-    keyDown: TETRIS.Model.startKey,
-    keyUp: TETRIS.Model.stopKey
-  });
-  this.animationSpeed();
-  this.then = Date.now();
-  this.animate();
-};
+  var _animationSpeed = function _animationSpeed(){
+    var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+    window.requestAnimationFrame = requestAnimationFrame;
+  };
 
-TETRIS.Controller.animationSpeed = function animationSpeed(){
-  var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
-  window.requestAnimationFrame = requestAnimationFrame;
-};
+  var _frame = function _frame(){
+    now = Date.now() - then
+    if(now > 200){
+      model.drop();
+      then = Date.now()
+    }
+    // if(now % 20 === 0)
+    model.movement();
+  };
 
-TETRIS.Controller.frame = function frame(){
-  this.now = Date.now() - this.then
-  if(this.now > 200){
-    this.model.drop();
-    this.then = Date.now()
-  }
-  this.model.movement();
-};
+  var _animate = function _animate(){
+    _frame();
+    view.renderEntities(model.pixels());
+    requestAnimationFrame(_animate)
+  };
 
-TETRIS.Controller.animate = function animate(){
-  requestAnimationFrame(function(){TETRIS.Controller.animate()})
-  this.frame();
-  this.view.renderEntities(this.model.pixels());
-};
+  var init = function init(){
+    model.init();
+    view.init({
+      keyDown: model.startKey,
+      keyUp: model.stopKey
+    });
+    _animationSpeed();
+    then = Date.now();
+    _animate();
+  };
+
+  return { init: init }
+
+})(TETRIS.View, TETRIS.Model)
