@@ -7,6 +7,7 @@ TETRIS.Model = (function(grid, shapes){
       descentRate = 1,
       strafing = 0,
       rotating = 0,
+      dropping = 0,
       keys = [];
 
  var randomShape = function randomShape() {
@@ -47,6 +48,7 @@ TETRIS.Model = (function(grid, shapes){
     keys[key] = false;
     switch (key) {
       case 32:
+      case 38:
       case 81:
       case 87:
       case "click":
@@ -54,14 +56,20 @@ TETRIS.Model = (function(grid, shapes){
         break;
       case 65:
       case 68:
+      case 37:
+      case 39:
         strafing = 0;
+        break;
+      case 83:
+      case 40:
+        dropping = 0;
         break;
       default:
     }
   }
 
   var movement = function movement(keyCode) {
-    if(keys[81]){
+    if(keys[81] || keys[38]){
       if(rotating % 10 === 0){
         activeShape.rotate(-90);
       }
@@ -73,16 +81,23 @@ TETRIS.Model = (function(grid, shapes){
       rotating += 1;
     }
 
-    if(keys[65]){
+    if(keys[65] || keys[37]){
       if(strafing % 10 === 0){
         activeShape.strafe(-1);
       }
       strafing += 1;
-    } else if(keys[68]){
+    } else if(keys[68] || keys[39]){
       if(strafing % 10 === 0){
         activeShape.strafe(1);
       }
       strafing += 1;
+    }
+
+    if(keys[83] || keys[40]){
+      if(dropping % 5 === 0){
+        drop()
+      }
+      dropping += 1;
     }
     var collided = grid.checkCollisions(activeShape);
     if(collided){
