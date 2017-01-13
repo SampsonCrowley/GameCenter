@@ -2,99 +2,111 @@
 
 TETRIS = TETRIS || {}
 
-TETRIS.Model = TETRIS.Model || {}
+TETRIS.Model = (function(grid, shapes){
+  var activeShape,
+      descentRate = 1,
+      strafing = 0,
+      rotating = 0,
+      keys = [];
 
-TETRIS.Model.init = function init(){
-  // this.activeShape = (Math.random() > .49 ? new this.Bar() : new this.Square());
-  this.randomShape();
-};
-
-TETRIS.Model.descentRate = 1;
-TETRIS.Model.strafing = 0;
-TETRIS.Model.rotating = 0;
-TETRIS.Model.keys = [];
-
-
-TETRIS.Model.randomShape = function randomShape() {
-  this.activeShape = {
-    0: function(){
-      return new TETRIS.Model.Bar()
-    },
-    1: function(){
-      return new TETRIS.Model.LGun()
-    },
-    2: function(){
-      return new TETRIS.Model.RGun()
-    },
-    3:function(){
-      return new TETRIS.Model.Snake()
-    },
-    4: function(){
-      return new TETRIS.Model.Square()
-    },
-    5:function(){
-      return new TETRIS.Model.Tee()
-    },
-    6:function(){
-      return new TETRIS.Model.ZigZag()
-    }
-  }[Math.floor(Math.random()*7)]()
-}
-
-TETRIS.Model.offset = function offset(shapeDiameter) {
-  return (this.Grid.columns / 2) - Math.floor(shapeDiameter / 2);
-};
-
-TETRIS.Model.drop = function drop() {
-  this.activeShape.y += 1;
-};
-
-TETRIS.Model.startKey = function startKey(key){
-  TETRIS.Model.keys[key] = true;
-}
-TETRIS.Model.stopKey = function stopKey(key){
-  TETRIS.Model.keys[key] = false;
-  switch (key) {
-    case 32:
-    case 81:
-    case 87:
-    case "click":
-      TETRIS.Model.rotating = 0;
-      break;
-    case 65:
-    case 68:
-      TETRIS.Model.strafing = 0;
-      break;
-    default:
-  }
-}
-
-TETRIS.Model.movement = function movement(keyCode) {
-  if(this.keys[81]){
-    if(this.rotating % 10 === 0){
-      this.activeShape.rotate(-90);
-    }
-    this.rotating += 1;
-  } else if(this.keys[87] || this.keys[32] || this.keys["click"]){
-    if(this.rotating % 10 === 0){
-      this.activeShape.rotate(90);
-    }
-    this.rotating += 1;
+ var randomShape = function randomShape() {
+    activeShape = {
+      0: function(){
+        return new shapes.Bar()
+      },
+      1: function(){
+        return new shapes.LGun()
+      },
+      2: function(){
+        return new shapes.RGun()
+      },
+      3:function(){
+        return new shapes.Snake()
+      },
+      4: function(){
+        return new shapes.Square()
+      },
+      5:function(){
+        return new shapes.Tee()
+      },
+      6:function(){
+        return new shapes.ZigZag()
+      }
+    }[Math.floor(Math.random()*7)]()
   }
 
-  if(this.keys[65]){
-    if(this.strafing % 10 === 0){
-      this.activeShape.strafe(-1);
-    }
-    this.strafing += 1;
-  } else if(this.keys[68]){
-    if(this.strafing % 10 === 0){
-      this.activeShape.strafe(1);
-    }
-    this.strafing += 1;
+  var drop = function drop() {
+    activeShape.y += 1;
+  };
+
+  var startKey = function startKey(key){
+    console.log("pressed")
+    keys[key] = true;
   }
-  var collided = this.Grid.checkCollisions(this.activeShape)
-  if(collided){
-    this.randomShape()
+  var stopKey = function stopKey(key){
+    keys[key] = false;
+    switch (key) {
+      case 32:
+      case 81:
+      case 87:
+      case "click":
+        rotating = 0;
+        break;
+      case 65:
+      case 68:
+        strafing = 0;
+        break;
+      default:
+    }
   }
-};
+
+  var movement = function movement(keyCode) {
+    if(keys[81]){
+      if(rotating % 10 === 0){
+        activeShape.rotate(-90);
+      }
+      rotating += 1;
+    } else if(keys[87] || keys[32] || keys["click"]){
+      if(rotating % 10 === 0){
+        activeShape.rotate(90);
+      }
+      rotating += 1;
+    }
+
+    if(keys[65]){
+      if(strafing % 10 === 0){
+        activeShape.strafe(-1);
+      }
+      strafing += 1;
+    } else if(keys[68]){
+      if(strafing % 10 === 0){
+        activeShape.strafe(1);
+      }
+      strafing += 1;
+    }
+    var collided = grid.checkCollisions(activeShape);
+    if(collided){
+      randomShape()
+    }
+  };
+  var init = function init(){
+    randomShape();
+  };
+
+  var pixels = function pixels() {
+    var gridResult = grid.pixels(activeShape.y + activeShape.collidable.y)
+    return {
+      pixels: [...activeShape.pixels(), ...gridResult.pixels],
+      rows: gridResult.rows
+    }
+  };
+
+  return {
+    init: init,
+    drop: drop,
+    movement: movement,
+    pixels: pixels,
+    startKey: startKey,
+    stopKey: stopKey
+  }
+})(TETRIS.Grid, TETRIS.Shapes)
