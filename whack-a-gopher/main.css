@@ -1,0 +1,58 @@
+*, html, body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+whack-a-mole {
+  display: block;
+  position: relative;
+  width: 812px;
+  height: 100%;
+  margin: auto;
+  border: 6px groove gold;
+  cursor: none;
+}
+
+h1 {
+  text-align: center;
+  font-style: italic;
+}
+
+whack-a-mole .hammer {
+  z-index: 1;
+  position: absolute;
+  display: block;
+  top: 100%;
+  left: 100%;
+  max-width: 100px;
+  max-height: 100px;
+}
+
+whack-a-mole .hammer.swing {
+  animation:spin .10s linear;
+}
+@-moz-keyframes spin { 100% { -moz-transform: rotate(-90deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(-90deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(-90deg); transform:rotate(-90deg); } }
+
+whack-a-mole .scoreboard {
+  display: block;
+  width: 100%;
+  z-index: 0;
+  font-size: 36px;
+}
+
+whack-a-mole .mole {
+  display: inline-block;
+  width: 200px;
+  height: 200px;
+  background: url(https://c1.staticflickr.com/1/103/250640481_c16b56b58d_b.jpg) center no-repeat;
+  background-size: contain;
+  z-index: 0;
+}
+
+whack-a-mole .mole.cheeky {
+  background: url(https://s-media-cache-ak0.pinimg.com/originals/a2/84/6a/a2846a6f95845fef4909a3da7e0c8577.jpg) center no-repeat;
+  background-size: contain;
+}
