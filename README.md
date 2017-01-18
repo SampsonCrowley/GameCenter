@@ -3,7 +3,9 @@ TETRIS
 
 A canvas rendered JS tetris game
 
-# Controls
+## [Click Here To Play](https://htmlpreview.github.io/?https://github.com/SampsonCrowley/tetris/blob/master/index.html)
+
+## Controls:
 
 ### W, Space, Click : Rotate 90
 
@@ -15,13 +17,16 @@ A canvas rendered JS tetris game
 
 ### S, Down : Speed Drop
 
-## [Click Here To Play](https://htmlpreview.github.io/?https://github.com/SampsonCrowley/tetris/blob/master/index.html)
-
 <br>
 <br>
 Asteroids!
 =================
-## controls:
+
+A canvas Optimised take on the classic Asteroids game
+
+## [Click Here To Play](https://htmlpreview.github.io/?https://github.com/SampsonCrowley/asteroids/blob/master/index.html)
+
+## Controls:
 
 ### W, Up: Accelerate
 
@@ -31,27 +36,24 @@ Asteroids!
 
 ### Space, Click: FIRE!!
 
-### [Click Here To Play](https://htmlpreview.github.io/?https://github.com/SampsonCrowley/asteroids/blob/master/index.html)
 
 
-## Contributors
+### Contributors
 
-### [Sampson Crowley](https://github.com/SampsonCrowley)
+[Sampson Crowley](https://github.com/SampsonCrowley)
 
-### [Jessica Gillan](https://github.com/JessicaGillan)
+[Jessica Gillan](https://github.com/JessicaGillan)
 
 <br>
 <br>
 Snake!
 ==========================
 
-hiss hiss gulp grow hiss...
-
-this is a simple javascript snake game
+a simple, yet entertaining DOM based JavaScript snake game
 
 Snake! supports Swipe, WASD, and Arrow Key controls, as well as permanent on screen buttons
 
-###[Click Here To Play](https://htmlpreview.github.io/?https://github.com/SampsonCrowley/snake/blob/master/index.html)
+##[Click Here To Play](https://htmlpreview.github.io/?https://github.com/SampsonCrowley/snake/blob/master/index.html)
 
 ## About the game
 
@@ -67,7 +69,7 @@ Whack - a  - Gopher
 
 Whack-a-Mole with a surprise twist
 
-###[Click Here to Play](https://htmlpreview.github.io/?https://github.com/SampsonCrowley/whack-a-gopher/blob/master/index.html)
+##[Click Here to Play](https://htmlpreview.github.io/?https://github.com/SampsonCrowley/whack-a-gopher/blob/master/index.html)
 
 ### Contributors
 
