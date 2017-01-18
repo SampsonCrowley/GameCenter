@@ -17,6 +17,8 @@ A canvas rendered JS tetris game
 ### S, Down : Speed Drop
 
 
+<br>
+<br>
 Asteroids!
 =================
 ## controls:
@@ -40,6 +42,8 @@ Asteroids!
 
 
 
+<br>
+<br>
 Snake!
 ==========================
 
@@ -60,17 +64,18 @@ To grow your snake, eat food by running into the black squares with the head of 
 
 
 
+
+<br>
+<br>
 Whack - a  - Gopher
 ======================
 
 ## Whack-a-Mole with a surprise twist
 
-#[Click Here to Play](https://htmlpreview.github.io/?https://github.com/SampsonCrowley/whack-a-gopher/blob/master/index.html)
-
-<br>
-<br>
 ### Contributors
 
 [Sampson Crowley](https://github.com/SampsonCrowley)
 
 [Dexter Ford](https://github.com/dexterford77)
+
+####[Click Here to Play](https://htmlpreview.github.io/?https://github.com/SampsonCrowley/whack-a-gopher/blob/master/index.html)
