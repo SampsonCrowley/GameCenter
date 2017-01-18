@@ -70,7 +70,7 @@ To grow your snake, eat food by running into the black squares with the head of 
 Whack - a  - Gopher
 ======================
 
-## Whack-a-Mole with a surprise twist
+ Whack-a-Mole with a surprise twist
 
 ### Contributors
 
