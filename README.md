@@ -7,15 +7,15 @@ A canvas rendered JS tetris game
 
 ## Controls:
 
-### W, Space, Click : Rotate 90
+#### W, Space, Click : Rotate 90
 
-### Q, Up : Rotate -90
+#### Q, Up : Rotate -90
 
-### A, Left : Strafe Left
+#### A, Left : Strafe Left
 
-### D, Right : Strafe Right
+#### D, Right : Strafe Right
 
-### S, Down : Speed Drop
+#### S, Down : Speed Drop
 
 <br>
 <br>
@@ -28,17 +28,17 @@ A canvas Optimised take on the classic Asteroids game
 
 ## Controls:
 
-### W, Up: Accelerate
+#### W, Up: Accelerate
 
-### A, Left: Rotate Left
+#### A, Left: Rotate Left
 
-### D, Right: Rotate Right
+#### D, Right: Rotate Right
 
-### Space, Click: FIRE!!
+#### Space, Click: FIRE!!
 
 
 
-### Contributors
+## Contributors
 
 [Sampson Crowley](https://github.com/SampsonCrowley)
 
@@ -71,7 +71,7 @@ Whack-a-Mole with a surprise twist
 
 ##[Click Here to Play](https://htmlpreview.github.io/?https://github.com/SampsonCrowley/whack-a-gopher/blob/master/index.html)
 
-### Contributors
+## Contributors
 
 [Sampson Crowley](https://github.com/SampsonCrowley)
 
