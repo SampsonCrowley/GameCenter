@@ -1,8 +1,7 @@
 TETRIS
 =========
-A canvas rendered JS tetris game
 
-# [Play Game](https://htmlpreview.github.io/?https://github.com/SampsonCrowley/tetris/blob/master/index.html)
+A canvas rendered JS tetris game
 
 # Controls
 
@@ -16,6 +15,7 @@ A canvas rendered JS tetris game
 
 ### S, Down : Speed Drop
 
+## [Click Here To Play](https://htmlpreview.github.io/?https://github.com/SampsonCrowley/tetris/blob/master/index.html)
 
 <br>
 <br>
@@ -31,7 +31,7 @@ Asteroids!
 
 ### Space, Click: FIRE!!
 
-## [PLAY DEMO!](https://htmlpreview.github.io/?https://github.com/SampsonCrowley/asteroids/blob/master/index.html)
+### [Click Here To Play](https://htmlpreview.github.io/?https://github.com/SampsonCrowley/asteroids/blob/master/index.html)
 
 
 ## Contributors
@@ -39,8 +39,6 @@ Asteroids!
 ### [Sampson Crowley](https://github.com/SampsonCrowley)
 
 ### [Jessica Gillan](https://github.com/JessicaGillan)
-
-
 
 <br>
 <br>
@@ -62,20 +60,17 @@ The player controls a square, on the bordered display. As it moves forward, it l
 The object of the game is to grow your snake until it fills all available squares.
 To grow your snake, eat food by running into the black squares with the head of the snake.
 
-
-
-
 <br>
 <br>
 Whack - a  - Gopher
 ======================
 
- Whack-a-Mole with a surprise twist
+Whack-a-Mole with a surprise twist
+
+###[Click Here to Play](https://htmlpreview.github.io/?https://github.com/SampsonCrowley/whack-a-gopher/blob/master/index.html)
 
 ### Contributors
 
 [Sampson Crowley](https://github.com/SampsonCrowley)
 
 [Dexter Ford](https://github.com/dexterford77)
-
-####[Click Here to Play](https://htmlpreview.github.io/?https://github.com/SampsonCrowley/whack-a-gopher/blob/master/index.html)
